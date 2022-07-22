@@ -16,4 +16,3 @@ git commit -m "new deployment"
 
 git push -f https://github.com/Evina88/vue-dashboard.git main:gh-branches
 
-cd -
