@@ -1,15 +1,4 @@
 <template>
-	<div class="container top-0 position-sticky z-index-sticky">
-		<div class="row">
-			<div class="col-12">
-				<navbar
-					isBlur="blur  border-radius-lg my-3 py-2 start-0 end-0 mx-4 shadow"
-					v-bind:darkMode="true"
-					isBtn="bg-gradient-success"
-				/>
-			</div>
-		</div>
-	</div>
 	<main class="mt-0 main-content">
 		<section>
 			<div class="page-header min-vh-100">
@@ -26,44 +15,57 @@
 								<div class="card-body">
 									<form role="form">
 										<div class="mb-3">
-											<argon-input
-												type="email"
-												placeholder="Email"
-												name="email"
-												size="lg"
+											<input
+												type="text"
+												placeholder="Store Name"
+												name="store-name"
 											/>
 										</div>
 										<div class="mb-3">
-											<argon-input
+											<input
+												type="text"
+												placeholder="Username"
+												name="username"
+											/>
+										</div>
+										<div class="mb-3">
+											<input
 												type="password"
 												placeholder="Password"
 												name="password"
-												size="lg"
 											/>
 										</div>
-										<argon-switch id="rememberMe">Remember me</argon-switch>
+										<div class="mb-3">
+											<input
+												type="text"
+												placeholder="Consumer Key"
+												name="consumer-key"
+												v-model="consumerKey"
+											/>
+										</div>
+
+										<div class="mb-3">
+											<input
+												type="text"
+												placeholder="Consumer Secret"
+												name="consumer-secret"
+												v-model="consumerSecret"
+											/>
+										</div>
+										<!-- <switch id="rememberMe">Remember me</switch> -->
 
 										<div class="text-center">
-											<argon-button
+											<button
 												class="mt-4"
 												variant="gradient"
 												color="success"
 												fullWidth
-												size="lg"
-												>Sign in</argon-button
+												v-on:click="login"
 											>
+												Sign in
+											</button>
 										</div>
 									</form>
-								</div>
-								<div class="px-1 pt-0 text-center card-footer px-lg-2">
-									<p class="mx-auto mb-4 text-sm">
-										Don't have an account?
-										<a
-											href="javascript:;"
-											class="text-success text-gradient font-weight-bold"
-											>Sign up</a
-										>
-									</p>
 								</div>
 							</div>
 						</div>
@@ -98,24 +100,36 @@
 
 <script>
 	// const body = document.getElementsByTagName("body")[0];
-
+	import axios from "axios";
 	export default {
-		name: "signIn",
-		components: {},
-		// created() {
-		// 	this.$store.state.hideConfigButton = true;
-		// 	this.$store.state.showNavbar = false;
-		// 	this.$store.state.showSidenav = false;
-		// 	this.$store.state.showFooter = false;
-		// 	body.classList.remove("bg-gray-100");
-		// },
-		// beforeUnmount() {
-		// 	this.$store.state.hideConfigButton = false;
-		// 	this.$store.state.showNavbar = true;
-		// 	this.$store.state.showSidenav = true;
-		// 	this.$store.state.showFooter = true;
-		// 	body.classList.add("bg-gray-100");
-		// },
+		name: "SignIn",
+		data() {
+			return {
+				consumerKey: "",
+				consumerSecret: "",
+			};
+		},
+		methods: {
+			login(event) {
+				if (event) {
+					event.preventDefault();
+				}
+				console.log(this.consumerKey, this.consumerSecret);
+				if (
+					this.consumerKey === "ck_5b09fad59743925a301bacc32b38d0b59c0b954f" &&
+					this.consumerSecret === "cs_bf715004408cc3d54199c1d9e9bcb647dddb1f32"
+				) {
+					let result = axios.get(
+						`https://demomaster.gr/wc-api/v3/users?consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`
+					);
+					if (result.status === 200) {
+						console.log("OK");
+					}
+				} else {
+					console.log("fail");
+				}
+			},
+		},
 	};
 </script>
 
